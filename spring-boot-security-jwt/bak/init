@@ -1,0 +1,71 @@
+http
+                // 由于使用的是JWT，我们这里不需要csrf
+                 .csrf().disable()
+
+                // 基于token，所以不需要session
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+
+                //所有用户可以访问"/resources"目录下的资源以及访问"/home"和favicon.ico
+                .antMatchers("/resources/**", "/home","/**/favicon.ico","/auth/*").permitAll()
+
+                //以"/admin"开始的URL，并需拥有 "ROLE_ADMIN" 角色权限,这里用hasRole不需要写"ROLE_"前缀；
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("USER")
+                //以"/admin"开始的URL，并需拥有 "ROLE_ADMIN" 角色权限和 "ROLE_DBA" 角色,这里不需要写"ROLE_"前缀；
+                .antMatchers("/dba/**").access("hasRole('ADMIN') and hasRole('DBA')")
+
+                //前面没有匹配上的请求，全部需要认证；
+                .anyRequest().authenticated()
+
+                .and()
+                //指定登录界面，并且设置为所有人都能访问；
+                .formLogin().loginPage("/login").permitAll()
+                //如果登录失败会跳转到"/hello"
+//                .successForwardUrl("/hello")
+                .successHandler(myAuthenticationSuccessHandler)
+                .failureHandler(myAuthenticationFailureHandler)
+                //如果登录失败会跳转到"/logout"
+                //.failureForwardUrl("/logout")
+
+                .and()
+                .logout()
+//                .logoutUrl("/admin/logout") //指定登出的地址，默认是"/logout"
+//                .logoutSuccessUrl("/home")   //登出后的跳转地址login?logout
+                //自定义LogoutSuccessHandler，在登出成功后调用，如果被定义则logoutSuccessUrl()就会被忽略
+                .logoutSuccessHandler(logoutSuccessHandler)
+                .invalidateHttpSession(true)  //定义登出时是否invalidate HttpSession，默认为true
+                //.addLogoutHandler(logoutHandler) //添加自定义的LogoutHandler，默认会添加SecurityContextLogoutHandler
+//                .deleteCookies("usernameCookie","urlCookie") //在登出同时清除cookies
+
+        .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(entryPointUnauthorizedHandler)
+                .accessDeniedHandler(restAccessDeniedHandler)
+        .and()
+                .headers()
+                    // 禁用缓存
+                    .cacheControl()
+//        .and()
+//                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
+        ;
+
+//        http.cors();
+
+        // 禁用缓存
+//        http.headers().cacheControl();
+
+        // 添加JWT filter
+        http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+//        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http.authorizeRequests();
+        //让Spring security 放行所有preflight request（cors 预检请求）
+//        registry.requestMatchers(CorsUtils::isPreFlightRequest).permitAll();
+        // 处理异常情况：认证失败和权限不足
+//        http.exceptionHandling().authenticationEntryPoint(entryPointUnauthorizedHandler).accessDeniedHandler(restAccessDeniedHandler);
+
+//        http.headers()
+//                .addHeaderWriter(new StaticHeadersWriter(Arrays.asList(
+//                //支持所有源的访问
+//                new Header("Access-control-Allow-Origin","*"),
+//                //使ajax请求能够取到header中的jwt token信息
+//                new Header("Access-Control-Expose-Headers","Authorization"))));
