@@ -1,5 +1,6 @@
 package com.fengwenyi.spring_boot_security_jwt_json.config;
 
+import com.fengwenyi.spring_boot_security_jwt_json.filter.JsonUsernamePasswordAuthenticationFilter;
 import com.fengwenyi.spring_boot_security_jwt_json.filter.OptionsRequestFilter;
 import com.fengwenyi.spring_boot_security_jwt_json.handler.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.Header;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.filter.CorsFilter;
@@ -89,6 +91,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionManagement().disable()
         ;
 
+        http.addFilterAt(jsonUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
@@ -96,4 +101,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+
+    @Bean
+    public JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter() throws Exception {
+        JsonUsernamePasswordAuthenticationFilter filter = new JsonUsernamePasswordAuthenticationFilter();
+        filter.setAuthenticationManager(authenticationManagerBean());
+        filter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
+        filter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
+        return filter;
+    }
 }

@@ -26,3 +26,4 @@ hs_err_pid*
 *mvnw
 *mvnw.cmd
 *target/
+/spring-boot-security-jwt/target/
