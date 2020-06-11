@@ -4,11 +4,20 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>spring-boot-docker</module>
+        <module>spring-boot-security-jwt</module>
+        <module>spring-boot-security-jwt-json</module>
+        <module>spring-boot-security-sms</module>
+        <module>spring-boot-shiro</module>
+        <module>spring-boot-data-jdbc</module>
+        <module>spring-boot-data-jpa</module>
+        <module>spring-boot-data-hibernate</module>
+        <module>spring-boot-mybatis</module>
+        <module>spring-boot-mybatis-plus</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.7.RELEASE</version>
+        <version>2.3.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.fengwenyi</groupId>
