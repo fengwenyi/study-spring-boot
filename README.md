@@ -20,3 +20,4 @@
 | 10 | spring-boot-redis | Spring Boot 与 Redis 示例 |
 | 10 | spring-boot-jedis | Spring Boot 与 Jedis 示例 |
 | 10 | spring-boot-redisson | Spring Boot 整合 Redisson，分布式锁 |
+| 11 | spring-boot-application-context | Study Spring ApplicationContext |
