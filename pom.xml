@@ -19,6 +19,7 @@
         <module>spring-boot-ws</module>
         <module>spring-boot-security-oauth2</module>
         <module>spring-boot-application-context</module>
+        <module>spring-boot-async</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
