@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Erwin Feng
  * @since 2020-11-10
@@ -34,6 +36,23 @@ public class TestAsyncController {
     @GetMapping("/test3")
     public void test3() {
         iTestAsyncService.test3();
+    }
+
+    @GetMapping("/invalid")
+    public String invalidAsyncExample() {
+        iTestAsyncService.invalidAsyncExample();
+        return "测试完成 " + LocalDateTime.now().toString();
+    }
+
+    @GetMapping("/no-value")
+    public String noValueAsyncExample() {
+        iTestAsyncService.noValueAsyncExample();
+        return "测试完成 " + LocalDateTime.now().toString();
+    }
+
+    @GetMapping("/value")
+    public int valueAsyncExample() {
+        return iTestAsyncService.valueAsyncExample();
     }
 
 }
