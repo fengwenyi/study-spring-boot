@@ -22,6 +22,7 @@
         <module>spring-boot-async</module>
         <module>spring-boot-logback</module>
         <module>spring-boot-aop</module>
+        <module>spring-boot-demo</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
