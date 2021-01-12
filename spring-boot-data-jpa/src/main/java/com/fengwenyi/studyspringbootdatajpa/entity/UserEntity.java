@@ -5,6 +5,7 @@ import com.fengwenyi.studyspringbootdatajpa.enums.UserStatusEnum;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @author Erwin Feng
@@ -33,5 +34,9 @@ public class UserEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private UserStatusEnum status;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "birthday")
+    private Date birthday;
 
 }
