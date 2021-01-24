@@ -24,6 +24,7 @@
         <module>spring-boot-aop</module>
         <module>spring-boot-demo</module>
         <module>spring-boot-json-view</module>
+        <module>spring-boot-api-result</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
